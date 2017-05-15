@@ -63,6 +63,12 @@ type UserAcceptance struct {
 		
 }
 
+type Reserve struct {
+	TollFreeno string;
+	status string;
+	
+}
+
 
 type UsageDetailsFromDonorandAcceptorCSP struct {
 
@@ -196,7 +202,34 @@ func (t *NumberPortabilityChaincode) UserAcceptance(stub shim.ChaincodeStubInter
 	fmt.Println("UserAcceptance Information invoke ends...")
 	return nil, nil
 }
+//Reserve Invoke function
+func (t *NumberPortabilityChaincode) Reserve(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 
+    fmt.Println("Reserve Information invoke Begins...")
+
+	if len(args) != 2 {
+		return nil, errors.New("Incorrect number of arguments. Expecting 14")
+	}
+
+	// Check the Reseve paramater, if true then update world state with new status
+	
+	var status1 string
+	//key := args[0]+args[1]+args[7]
+	Acceptance := args[1]
+	if(Acceptance == "true"){
+	 status1 = "RequestInitiated"
+	} 
+	
+	ReserveObj := Reserve{TollFreeno: args[0], status: status1}
+    fmt.Println("Reserve Details Structure ",ReserveObj)
+	err := stub.PutState(key,[]byte(fmt.Sprintf("%s",ReserveObj)))
+	if err != nil {
+		return nil, err
+	}
+	
+	fmt.Println("Reserve Information invoke ends...")
+	return nil, nil
+}
 
 
 // FinalPortInfo Invoke function
