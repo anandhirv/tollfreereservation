@@ -208,13 +208,13 @@ func (t *NumberPortabilityChaincode) Reserve(stub shim.ChaincodeStubInterface, a
     fmt.Println("Reserve Information invoke Begins...")
 
 	if len(args) != 2 {
-		return nil, errors.New("Incorrect number of arguments. Expecting 14")
+		return nil, errors.New("Incorrect number of arguments. Expecting 2")
 	}
 
 	// Check the Reseve paramater, if true then update world state with new status
 	
 	var status1 string
-	key := args[0]
+	key := args[0]+args[1]
 	Acceptance := args[1]
 	if(Acceptance == "true"){
 	 status1 = "RequestInitiated"
@@ -222,7 +222,7 @@ func (t *NumberPortabilityChaincode) Reserve(stub shim.ChaincodeStubInterface, a
 	
 	ReserveObj := Reserve{TollFreeno: args[0], status: status1}
     fmt.Println("Reserve Details Structure ",ReserveObj)
-	err := stub.PutState(key,[]byte(fmt.Sprintf("%s",ReserveObj)))
+	err := stub.PutState([]byte(fmt.Sprintf("%s",ReserveObj)))
 	if err != nil {
 		return nil, err
 	}
