@@ -429,6 +429,29 @@ func (t *NumberPortabilityChaincode) RegulatorQuery(stub shim.ChaincodeStubInter
 }
 
 
+func (t *NumberPortabilityChaincode) RegulatorQuery1(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
+    var key, jsonResp string
+    var err error
+
+    if len(args) != 1 {
+        return nil, errors.New("Incorrect number of arguments. Expecting 1 arguments")
+    }
+
+    key = args[0]
+    valAsbytes, err := stub.GetState(key)
+    if err != nil {
+        jsonResp = "{\"Error\":\"Failed to get state for " + key + "\"}"
+        return nil, errors.New(jsonResp)
+    } else if len(valAsbytes) == 0{
+	    jsonResp = "{\"Error\":\"Failed to get Query for " + key + "\"}"
+        return nil, errors.New(jsonResp)
+	}
+
+	fmt.Println("Query NumberPortability Chaincode... end") 
+    return valAsbytes, nil 
+
+}
+
 // args should be Number, serviceProviderOld, serviceProviderNew
 
 func (t *NumberPortabilityChaincode) EntitlementFromRecipientCSPQuery(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
