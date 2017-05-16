@@ -194,7 +194,7 @@ func (t *NumberPortabilityChaincode) UserAcceptance(stub shim.ChaincodeStubInter
 	
 	UserAcceptanceObj := UserAcceptance{Number: args[0], ServiceProviderOld: args[1], PlanOld: args[2], ServiceValidityOld: args[3], TalktimeBalanceOld: args[4], SMSbalanceOld: args[5], DataBalanceOld: args[6], ServiceProviderNew: args[7], PlanNew: args[8], ServiceValidityNew: args[9], TalktimeBalanceNew: args[10], SMSbalanceNew: args[11], DataBalanceNew: args[12], CustomerAcceptance: args[13], status: status1}
     fmt.Println("UserAcceptance Details Structure ",UserAcceptanceObj)
-	err := stub.PutState(key,[]byte(fmt.Sprintf("%s",UserAcceptanceObj)))
+	err := stub.PutState(key,[]byte(fmt.Sprintf("%s",UserAc-tanceObj)))
 	if err != nil {
 		return nil, err
 	}
@@ -222,7 +222,7 @@ func (t *NumberPortabilityChaincode) Reserve(stub shim.ChaincodeStubInterface, a
 	
 	ReserveObj := Reserve{TollFreeno: args[0], status: status1}
     fmt.Println("Reserve Details Structure ",ReserveObj)
-	err := stub.PutState([]byte(fmt.Sprintf("%s",ReserveObj)))
+	err := stub.PutState(key,[]byte(fmt.Sprintf("%s",ReserveObj)))
 	if err != nil {
 		return nil, err
 	}
@@ -437,7 +437,7 @@ func (t *NumberPortabilityChaincode) RegulatorQuery1(stub shim.ChaincodeStubInte
         return nil, errors.New("Incorrect number of arguments. Expecting 1 arguments")
     }
 
-    key = args[0]
+    key = args[0]+args[1]
     valAsbytes, err := stub.GetState(key)
     if err != nil {
         jsonResp = "{\"Error\":\"Failed to get state for " + key + "\"}"
